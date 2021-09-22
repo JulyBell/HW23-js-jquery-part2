@@ -1,20 +1,24 @@
 let textInput = $('#textInput'); //поле инпута
 //let button = $('#textBtn');	//кнопка
 let $toDoList = $('#toDoList');	//поле отображения списка
-let li = document.createElement('li');
+let li;
 let post;
 
 $('#textBtn').on('click', todoEvent); //обработчик кнопки
+
+function makeList(todos){
+	let list = $.map(todos, (item) =>{
+		return li = `<span><li id = ${item.id} data-id = ${item.id} data-status = ${item.completed} class = "notDone"> ${item.title}</li><button id = ${item.id} class = "deleteButton">X</button></span>`;
+	});
+
+	$toDoList.html(list);	
+}
 
 let getTodos = $.get('http://localhost:3000/todos', function(){
 	console.log('success');
 })
 	.done(function(todos){
-			let list = $.map(todos, (item) =>{
-				return li = `<span><li id = ${item.id} data-id = ${item.id} data-status = ${item.completed} class = "notDone"> ${item.title}</li><button id = ${item.id} class = "deleteButton">X</button></span>`;
-			});
-
-			$toDoList.html(list);	
+			makeList(todos);	
 		}
 	)
 	.fail(function(){
@@ -31,20 +35,17 @@ function todoEvent(e){
 		"completed": false
 	}
 	
+	let lastElementId = getTodos.responseJSON[getTodos.responseJSON.length-1].id;
+	 li = `<span><li id = ${lastElementId+1} data-id = ${lastElementId+1} data-status = ${post.completed} class = "notDone"> ${post.title}</li><button id = ${lastElementId+1} class = "deleteButton">X</button></span>`;
+
+	 let allContent = $('#toDoList').html();
+	 allContent += li;
 	
+	 $('#toDoList').html(allContent);
+
 	addTodo(post);
 	textInput.val('');
 
-	// let lastElementId = getTodos.responseJSON[getTodos.responseJSON.length-1].id;
-	// console.log('chack', lastElementId);
-
-	// li = `<span><li id = ${lastElementId+1} data-id = ${lastElementId+1} data-status = ${post.completed} class = "notDone"> ${post.title}</li><button id = ${lastElementId+1} class = "deleteButton">X</button></span>`;
-
-	// let allContent = $('#toDoList').html();
-	// $toDoList.html(allContent + li);
-
-	
-	window.location.reload();
 }
 
 function addTodo(post){
@@ -80,7 +81,7 @@ function deleteItem(id){
 	})
 }
 
-function liEvent(e){
+function clickLi(e){
 	
 	let elem = $("#" + e.target.id);
 	
@@ -105,7 +106,7 @@ function liEvent(e){
 		}//меняем цвет фона
 }
 
-function buttonEvent(e){
+function clickButton(e){
 	let targetId = e.target.id;
 	e.target.closest('span').remove();
 	deleteItem(targetId);
@@ -116,9 +117,9 @@ $('#toDoList').on('click', (e) => {
 
 	if(e.target.tagName === 'LI'){
 		console.log('clicked li')
-		liEvent(e);
+		clickLi(e);
 	}else if(e.target.tagName === 'BUTTON'){
 		console.log('clicked button')
-		buttonEvent(e);
+		clickButton(e);
 	}
 })

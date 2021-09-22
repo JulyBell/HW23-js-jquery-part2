@@ -1,29 +1,19 @@
 {
   "todos": [
     {
-      "title": "      new",
+      "title": "       new",
       "completed": "false",
       "id": 1
     },
     {
-      "title": "       third",
-      "completed": "false",
-      "id": 3
-    },
-    {
-      "title": "  smith",
+      "title": "    smith",
       "completed": "false",
       "id": 5
     },
     {
-      "title": " on",
+      "title": "hyi",
       "completed": "false",
       "id": 6
-    },
-    {
-      "title": " off",
-      "completed": "false",
-      "id": 7
     }
   ]
 }
